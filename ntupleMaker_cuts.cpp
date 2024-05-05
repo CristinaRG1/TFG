@@ -469,8 +469,8 @@ if (!skipEvent && v_tlv_all_leptons.size() == 4) {
     if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId() + v_tlv_all_leptons[2].GetPdgId() + v_tlv_all_leptons[3].GetPdgId()) == 0) { // ZZ region
         // 01 and 23 combination
         if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId()) == 0) {
-            double mll1 = (v_tlv_all_vbosons[0].GetP4() + v_tlv_all_vbosons[1].GetP4()).M();
-            double mll2 = (v_tlv_all_vbosons[2].GetP4() + v_tlv_all_vbosons[3].GetP4()).M();
+            double mll1 = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).M();
+            double mll2 = (v_tlv_all_leptons[2].GetP4() + v_tlv_all_leptons[3].GetP4()).M();
             if ((mll1 < 60.0 || mll1 > 120.0) || (mll2 < 60.0 || mll2 > 120.0)) {
                 skipEvent = true;
             }
@@ -478,8 +478,8 @@ if (!skipEvent && v_tlv_all_leptons.size() == 4) {
 
         // 02 and 13 combination
         if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll1 = (v_tlv_all_vbosons[0].GetP4() + v_tlv_all_vbosons[2].GetP4()).M();
-            double mll2 = (v_tlv_all_vbosons[1].GetP4() + v_tlv_all_vbosons[3].GetP4()).M();
+            double mll1 = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
+            double mll2 = (v_tlv_all_leptons[1].GetP4() + v_tlv_all_leptons[3].GetP4()).M();
             if ((mll1 < 60.0 || mll1 > 120.0) || (mll2 < 60.0 || mll2 > 120.0)) {
                 skipEvent = true;
             }
@@ -487,8 +487,8 @@ if (!skipEvent && v_tlv_all_leptons.size() == 4) {
 
         // 03 and 12 combination
         if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll1 = (v_tlv_all_vbosons[0].GetP4() + v_tlv_all_vbosons[3].GetP4()).M();
-            double mll2 = (v_tlv_all_vbosons[1].GetP4() + v_tlv_all_vbosons[2].GetP4()).M();
+            double mll1 = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[3].GetP4()).M();
+            double mll2 = (v_tlv_all_leptons[1].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
             if ((mll1 < 60.0 || mll1 > 120.0) || (mll2 < 60.0 || mll2 > 120.0)) {
                 skipEvent = true;
             }
@@ -502,21 +502,21 @@ if (!skipEvent && v_tlv_all_leptons.size() == 3) {
         // test all 01, 02, 12 pairs
         // should not be mutually exclusive (if, if, if), NOT using if/else if/ else
         if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId()) == 0) {
-            double mll = (v_tlv_all_vbosons[0].GetP4() + v_tlv_all_vbosons[1].GetP4()).M();
+            double mll = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).M();
             if (mll < 60.0 || mll > 120.0) {
                 skipEvent = true;
             }
         }
 
         if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll = (v_tlv_all_vbosons[0].GetP4() + v_tlv_all_vbosons[2].GetP4()).M();
+            double mll = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
             if (mll < 60.0 || mll > 120.0) {
                 skipEvent = true;
             }
         }
 
         if ((v_tlv_all_leptons[1].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll = (v_tlv_all_vbosons[1].GetP4() + v_tlv_all_vbosons[2].GetP4()).M();
+            double mll = (v_tlv_all_leptons[1].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
             if (mll < 60.0 || mll > 120.0) {
                 skipEvent = true;
             }
@@ -644,11 +644,10 @@ if (!skipEvent && v_tlv_all_leptons.size() == 3) {
       mh1_   = v_tlv_all_hbosons.at (0).GetP4().M ();
       pdgIdh1_ = v_tlv_all_hbosons.at (0).GetPdgId ();
     }
-    }
     
     tree->Fill();
   }
-  
+ } 
 }
 
 

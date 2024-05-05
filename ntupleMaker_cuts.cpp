@@ -653,7 +653,14 @@ if (!skipEvent && v_tlv_all_leptons.size() == 3) {
   }
  } 
 	
- std::cout << "Number of events passing cuts: " << eventsPassingCuts << std::endl;   
+// After the loop, print the value of eventsPassingCuts
+std::cout << "Number of events passing cuts: " << eventsPassingCuts << std::endl;
+
+// Calculate the cross section after cuts
+double _evtWeight_final = _evtWeight * (static_cast<double>(eventsPassingCuts) / ieve); // Calcular _evtWeight_final
+// print the cross section after cuts
+std::cout << "Cross section after cuts =" << _evtWeight_final << std::endl;  
+
 }
 
 

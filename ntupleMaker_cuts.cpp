@@ -377,6 +377,9 @@ void myTree::fillTree(std::string fileNameLHE){
   long selected = 0;
   
   std::cout << "reading " << fileNameLHE << std::endl;
+
+  // Antes del bucle
+  long eventsPassingCuts = 0;
   
   while (reader.readEvent()) {
     ieve++;
@@ -646,8 +649,11 @@ if (!skipEvent && v_tlv_all_leptons.size() == 3) {
     }
     
     tree->Fill();
+    eventsPassingCuts++; // Increment counter
   }
  } 
+	
+ std::cout << "Number of events passing cuts: " << eventsPassingCuts << std::endl;   
 }
 
 

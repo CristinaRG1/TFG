@@ -452,9 +452,10 @@ void myTree::fillTree(std::string fileNameLHE){
     
   // ---------------------------------------------------------------------------------------  
     
-    // Apply additional event selection criteria
 
-    // Exclude events with OSSF lepton pairs with invariant mass below 4 GeV
+// Apply additional event selection criteria
+
+// Exclude events with OSSF lepton pairs with invariant mass below 4 GeV
 bool skipEvent = false;
 for (size_t i = 0; i < v_tlv_all_leptons.size(); ++i) {
     for (size_t j = i + 1; j < v_tlv_all_leptons.size(); ++j) {
@@ -462,70 +463,54 @@ for (size_t i = 0; i < v_tlv_all_leptons.size(); ++i) {
             double invMass = (v_tlv_all_leptons[i].GetP4() + v_tlv_all_leptons[j].GetP4()).M();
             if (invMass < 4.0) {
                 skipEvent = true;
+                break; // No need to continue if skipEvent is already true
             }
         }
     }
+    if (skipEvent) break; // No need to continue if skipEvent is already true
 }
 
 // For ZZ regions, apply additional kinematic requirements
 if (!skipEvent && v_tlv_all_leptons.size() == 4) {
-    if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId() + v_tlv_all_leptons[2].GetPdgId() + v_tlv_all_leptons[3].GetPdgId()) == 0) { // ZZ region
-        // 01 and 23 combination
-        if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId()) == 0) {
-            double mll1 = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).M();
-            double mll2 = (v_tlv_all_leptons[2].GetP4() + v_tlv_all_leptons[3].GetP4()).M();
-            if ((mll1 < 60.0 || mll1 > 120.0) || (mll2 < 60.0 || mll2 > 120.0)) {
-                skipEvent = true;
+    if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId() +
+         v_tlv_all_leptons[2].GetPdgId() + v_tlv_all_leptons[3].GetPdgId()) == 0) { // ZZ region
+        // Check all lepton pair combinations for ZZ region
+        bool zzRegionPass = false;
+        for (size_t i = 0; i < 3; ++i) {
+            for (size_t j = i + 1; j < 4; ++j) {
+                double mll = (v_tlv_all_leptons[i].GetP4() + v_tlv_all_leptons[j].GetP4()).M();
+                if (mll >= 60.0 && mll <= 120.0) {
+                    zzRegionPass = true;
+                    break; // No need to continue checking if one pair passes
+                }
             }
+            if (zzRegionPass) break; // No need to continue checking if one pair passes
         }
-
-        // 02 and 13 combination
-        if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll1 = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
-            double mll2 = (v_tlv_all_leptons[1].GetP4() + v_tlv_all_leptons[3].GetP4()).M();
-            if ((mll1 < 60.0 || mll1 > 120.0) || (mll2 < 60.0 || mll2 > 120.0)) {
-                skipEvent = true;
-            }
-        }
-
-        // 03 and 12 combination
-        if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll1 = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[3].GetP4()).M();
-            double mll2 = (v_tlv_all_leptons[1].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
-            if ((mll1 < 60.0 || mll1 > 120.0) || (mll2 < 60.0 || mll2 > 120.0)) {
-                skipEvent = true;
-            }
-        }
+        if (!zzRegionPass) skipEvent = true;
     }
 }
 
 // For WZ apply additional kinematic requirements
 if (!skipEvent && v_tlv_all_leptons.size() == 3) {
-    if (abs(v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 11 || abs(v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 13) { // WZ region
-        // test all 01, 02, 12 pairs
-        // should not be mutually exclusive (if, if, if), NOT using if/else if/ else
-        if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId()) == 0) {
-            double mll = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).M();
-            if (mll < 60.0 || mll > 120.0) {
-                skipEvent = true;
+    if (abs(v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId() +
+            v_tlv_all_leptons[2].GetPdgId()) == 11 || abs(v_tlv_all_leptons[0].GetPdgId() +
+            v_tlv_all_leptons[1].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 13) { // WZ region
+        // Check all lepton pair combinations for WZ region
+        bool wzRegionPass = false;
+        for (size_t i = 0; i < 2; ++i) {
+            for (size_t j = i + 1; j < 3; ++j) {
+                double mll = (v_tlv_all_leptons[i].GetP4() + v_tlv_all_leptons[j].GetP4()).M();
+                if (mll >= 60.0 && mll <= 120.0) {
+                    wzRegionPass = true;
+                    break; // No need to continue checking if one pair passes
+                }
             }
+            if (wzRegionPass) break; // No need to continue checking if one pair passes
         }
-
-        if ((v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
-            if (mll < 60.0 || mll > 120.0) {
-                skipEvent = true;
-            }
-        }
-
-        if ((v_tlv_all_leptons[1].GetPdgId() + v_tlv_all_leptons[2].GetPdgId()) == 0) {
-            double mll = (v_tlv_all_leptons[1].GetP4() + v_tlv_all_leptons[2].GetP4()).M();
-            if (mll < 60.0 || mll > 120.0) {
-                skipEvent = true;
-            }
-        }
+        if (!wzRegionPass) skipEvent = true;
     }
 }
+
 
 	// Fill histograms only if the event passes all selection criteria
 	if (!skipEvent) {

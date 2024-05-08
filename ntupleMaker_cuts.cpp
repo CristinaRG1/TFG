@@ -479,7 +479,7 @@ if (!skipEvent && v_tlv_all_leptons.size() == 4) {
         for (size_t i = 0; i < 3; ++i) {
             for (size_t j = i + 1; j < 4; ++j) {
                 double mll = (v_tlv_all_leptons[i].GetP4() + v_tlv_all_leptons[j].GetP4()).M();
-                if (mll >= 60.0 && mll <= 120.0) {
+                if (mll > 60.0 && mll < 120.0) {
                     zzRegionPass = true;
                     break; // No need to continue checking if one pair passes
                 }
@@ -500,7 +500,7 @@ if (!skipEvent && v_tlv_all_leptons.size() == 3) {
         for (size_t i = 0; i < 2; ++i) {
             for (size_t j = i + 1; j < 3; ++j) {
                 double mll = (v_tlv_all_leptons[i].GetP4() + v_tlv_all_leptons[j].GetP4()).M();
-                if (mll >= 60.0 && mll <= 120.0) {
+                if (mll > 60.0 && mll < 120.0) {
                     wzRegionPass = true;
                     break; // No need to continue checking if one pair passes
                 }

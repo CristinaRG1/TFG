@@ -520,7 +520,7 @@ for (size_t i = 0; i < v_tlv_all_leptons.size(); ++i) {
 
 if (!skipEvent && v_tlv_all_leptons.size() == 2) {
     if (abs(v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId()) == 2) { // OSDF WW region
-        // Check all lepton pair combinations for WW region
+        // Definition of the variables 
         bool wwRegionPass = false;
         double DeltaPhi_ll = TVector2::Phi_mpi_pi(v_tlv_all_leptons[0].GetP4().Phi() - v_tlv_all_leptons[1].GetP4().Phi());
         double ptll_ = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).Pt();
@@ -528,7 +528,7 @@ if (!skipEvent && v_tlv_all_leptons.size() == 2) {
         double ptl2_ = v_tlv_all_leptons.at(1).GetP4().Pt();
         double mll = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).M();
          
-        // Calculate transverse mass of the system neutrino-lepton for both leptons
+        // Calculate transverse mass 
         TLorentzVector neutrinos = v_tlv_all_neutrinos[0].GetP4() + v_tlv_all_neutrinos[1].GetP4();
         double ptmiss = neutrinos.Pt();
         double DeltaPhi_l2n = TVector2::Phi_mpi_pi(v_tlv_all_leptons.at(1).GetP4().Phi() - neutrinos.Phi());

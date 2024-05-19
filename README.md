@@ -1,5 +1,6 @@
 # TFG
-The degree thesis focuses on the production of leptonic decays of dibosons WW, ZZ, and WZ, along with the investigation of primary backgrounds and the study of potential models beyond the standard model of particle physics, in particular, the Axion-Like Particle (ALP) model. 
+
+The degree thesis focuses on the study of electroweak diboson production, along with the investigation of primary backgrounds and the study of potential models beyond the standard model of particle physics, in particular, the Axion-Like Particle (ALP) model. 
 
 The analysis routines and main files associated with the study are detailed here.
 

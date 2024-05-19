@@ -471,28 +471,28 @@ for (size_t i = 0; i < v_tlv_all_leptons.size(); ++i) {
 }
 
 // ----------------
-
+	  
 // For WW regions, apply additional kinematic requirements
 
 if (!skipEvent && v_tlv_all_leptons.size() == 2) {
-    int pdg_sum = v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId();
-    if (abs(pdg_sum) == 11 || abs(pdg_sum) == 13 || pdg_sum == 0) { // WW region
+    if (abs(v_tlv_all_leptons[0].GetPdgId() + v_tlv_all_leptons[1].GetPdgId()) == 2) { // OSDF WW region
         // Check all lepton pair combinations for WW region
         bool wwRegionPass = false;
-        double DeltaPhi_ll = abs((v_tlv_all_leptons[0].GetP4() - v_tlv_all_leptons[1].GetP4()).Phi());
+        double DeltaPhi_ll = TVector2::Phi_mpi_pi(v_tlv_all_leptons[0].GetP4().Phi() - v_tlv_all_leptons[1].GetP4().Phi());
         double ptll_ = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).Pt();
         double ptl1_ = v_tlv_all_leptons.at(0).GetP4().Pt();
         double ptl2_ = v_tlv_all_leptons.at(1).GetP4().Pt();
-              
+        double mll = (v_tlv_all_leptons[0].GetP4() + v_tlv_all_leptons[1].GetP4()).M();
+         
         // Calculate transverse mass of the system neutrino-lepton for both leptons
         TLorentzVector neutrinos = v_tlv_all_neutrinos[0].GetP4() + v_tlv_all_neutrinos[1].GetP4();
         double ptmiss = neutrinos.Pt();
-        double DeltaPhi_l1n = abs(v_tlv_all_leptons.at(0).GetP4().Phi() - neutrinos.Phi());
-        double DeltaPhi_l2n = abs(v_tlv_all_leptons.at(1).GetP4().Phi() - neutrinos.Phi());
+        double DeltaPhi_l1n = TVector2::Phi_mpi_pi(v_tlv_all_leptons.at(0).GetP4().Phi() - neutrinos.Phi());
+        double DeltaPhi_l2n = TVector2::Phi_mpi_pi(v_tlv_all_leptons.at(1).GetP4().Phi() - neutrinos.Phi());
         double mt_l1n = sqrt(2 * ptl1_ * ptmiss * (1 - cos(DeltaPhi_l1n)));
         double mt_l2n = sqrt(2 * ptl2_ * ptmiss * (1 - cos(DeltaPhi_l2n)));
         
-        if (ptl1_ > 20.0 && ptl2_ > 10.0 && ptll_ > 20.0 && DeltaPhi_ll > 2.8 && (mt_l1n, mt_l2n) > 20.0) {
+        if (ptl1_ > 20.0 && ptl2_ > 10.0 && ptll_ > 20.0 && mll > 12.0 && abs(DeltaPhi_ll) > 2.8 && mt_l1n > 20.0 && mt_l2n > 20.0) {
             wwRegionPass = true;
         }
         
@@ -502,6 +502,7 @@ if (!skipEvent && v_tlv_all_leptons.size() == 2) {
 
 
 // ----------------
+
 
 
 // For ZZ regions, apply additional kinematic requirements
